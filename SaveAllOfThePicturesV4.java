@@ -1,5 +1,7 @@
 // STAR-CCM+ macro: SaveAllOfThePicturesV4.java
 // Written by STAR-CCM+ 15.02.007
+
+
 package macro;
 
 import java.io.File;
@@ -13,10 +15,13 @@ public class SaveAllOfThePicturesV4 extends StarMacro {
 
     public void execute() {
 
-        Simulation sim = getActiveSimulation(); //labeling sim as the active simulation
+		//Labeling sim as the active simulation
+        Simulation sim = getActiveSimulation(); 
 
-        String sep = System.getProperty("file.separator"); //getting operating system separator
-        String filename = sim.getPresentationName(); //getting simulation filename
+		//Getting operating system separator
+		String sep = System.getProperty("file.separator");
+		//Getting simulation filename 
+        String filename = sim.getPresentationName(); 
 
         AccumulatedForceTable accumulatedForceTable_0 = 
 			((AccumulatedForceTable) sim.getTableManager().getTable("Accumulated Downforce Table"));
@@ -28,10 +33,12 @@ public class SaveAllOfThePicturesV4 extends StarMacro {
 
 			accumulatedForceTable_1.extract();
 
-        for (Scene scene : sim.getSceneManager().getScenes()) { //cycling through scenes
+		//Cycling through scenes. Need to remove plane views from this still
+        for (Scene scene : sim.getSceneManager().getScenes()) { 
   
-            String scenename = scene.getSceneManager().getPresentationName();
-            Collection<VisView> views = sim.getViewManager().getObjects(); //getting all views
+			String scenename = scene.getSceneManager().getPresentationName();
+			//Getting all views
+            Collection<VisView> views = sim.getViewManager().getObjects(); 
 
             Units units = 
   				((Units) sim.getUnitsManager().getObject("m"));
@@ -41,13 +48,16 @@ public class SaveAllOfThePicturesV4 extends StarMacro {
 			double zm = -0.025;
 			double f = -6.75;	     
 
-            for (VisView cv : views) { //cycling through views
+			//Cycling through views
+            for (VisView cv : views) { 
 
-                CurrentView currentview = scene.getCurrentView(); //labeling currentview as the current view being processed
+				//Labeling currentview as the current view being processed
+                CurrentView currentview = scene.getCurrentView(); 
                 currentview.setView(cv); //changing the view in the scene
 
-                //sim.print("The view being proccessed is named:" + scene + cv);
-                scene.open(true); //is the scene open?
+				//sim.print("The view being proccessed is named:" + scene + cv);
+				//Is the scene open?
+                scene.open(true); 
                 scene.printAndWait(resolvePath("C:\\Users\\nwhit\\Documents\\Simulation\\F20 Full Car Sims\\Reports\\" + filename + " " + scene.getPresentationName() + " " + cv.getPresentationName() + ".jpg"), 1, 3840, 2160);
             
         	}  
@@ -167,7 +177,7 @@ public class SaveAllOfThePicturesV4 extends StarMacro {
 
 				//sim.println(z);
 					}
-				}*/
+				}
 
 				if (scene.getPresentationName().contains("Velocity - X Planes")) {
 
@@ -209,7 +219,6 @@ public class SaveAllOfThePicturesV4 extends StarMacro {
 
 
         }
-
 	        for (StarPlot plot : sim.getPlotManager().getObjects()) {
 	            plot.encode(resolvePath("C:\\Users\\nwhit\\Documents\\Simulation\\F20 Full Car Sims\\Reports\\Plots\\" + plot.getPresentationName() + ".jpg"), 3840, 2160);
        		}
